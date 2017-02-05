@@ -10,10 +10,13 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+    @IBOutlet weak var RunButton: NSButtonCell!
+    
+    var manager : PopulationManager = PopulationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+//        manager = PopulationManager()
     }
 
     override var representedObject: Any? {
@@ -23,5 +26,8 @@ class ViewController: NSViewController {
     }
 
 
+    @IBAction func runButtonClicked(_ sender: NSButtonCell) {
+        manager.run()
+    }
 }
 
