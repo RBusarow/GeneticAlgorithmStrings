@@ -12,7 +12,7 @@ class PopulationManager {
     
     var generationNumber : Int
     var population : Population
-    let queue = DispatchQueue(label: "q", attributes: .concurrent)
+    let queue = DispatchQueue(label: "queue", attributes: .concurrent)
     
     init() {
         generationNumber = 0

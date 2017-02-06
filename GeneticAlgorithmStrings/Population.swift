@@ -29,7 +29,7 @@ class Population {
     
     func createInitialPopulation() {
         var individual: Individual
-        for i in 0...Settings.populationSize {
+        for i in 0..<Settings.populationSize {
             individual = Individual(id: i)
             population.append(individual)
             updateGenerationStatistics(individual: individual, id: i)
@@ -45,7 +45,6 @@ class Population {
             one = getWeightedRandomIndividual()
             two = getWeightedRandomIndividual()
             while (two.id == one.id) {
-//                print("doing this inner loop for ",i)
                 two = getWeightedRandomIndividual()
             }
             individual = Individual(one: one, two: two, id: i)
