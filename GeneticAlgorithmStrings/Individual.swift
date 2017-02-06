@@ -1,5 +1,5 @@
 //
-//  DNA.swift
+//  Individual.swift
 //  GeneticAlgorithmStrings
 //
 //  Created by Rick Busarow on 1/20/17.
@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class DNA {
+class Individual {
 
     var chars: [Character]
     var fitness: Int
@@ -24,7 +24,7 @@ class DNA {
         calculateFitness()
     }
 
-    init(one: DNA, two: DNA, id: Int) {
+    init(one: Individual, two: Individual, id: Int) {
         self.id = id
         chars = [Character]()
         fitness = 0
@@ -39,7 +39,7 @@ class DNA {
         }
     }
 
-    func crossOver(one: DNA, two: DNA) {
+    func crossOver(one: Individual, two: Individual) {
         let ran = random(bound: Settings.objectiveStringCharacterCount)
         copyOrMutateChars(lowerBound: 0, upperBound: ran, parentChars: one.chars)
         copyOrMutateChars(lowerBound: ran, upperBound: Settings.objectiveStringCharacterCount, parentChars: two.chars)

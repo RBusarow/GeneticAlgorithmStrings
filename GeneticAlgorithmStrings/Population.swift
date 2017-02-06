@@ -10,7 +10,7 @@ import Cocoa
 
 class Population {
 
-    var population : [DNA]            // fixed size, unique
+    var population : [Individual]            // fixed size, unique
 
     var totalWeightLastGeneration : Int64
     var totalWeightThisGeneration : Int64
@@ -19,7 +19,7 @@ class Population {
     var bestString : String
     
     init() {
-        population = [DNA]()
+        population = [Individual]()
         totalWeightLastGeneration = 0
         totalWeightThisGeneration = 0
         averageFitnessPercentage = 0
@@ -28,29 +28,29 @@ class Population {
     }
     
     func createInitialPopulation() {
-        var dna : DNA
+        var individual: Individual
         for i in 0...Settings.populationSize {
-            dna = DNA(id: i)
-            population.append(dna)
-            updateGenerationStatistics(dna: dna, id: i)
+            individual = Individual(id: i)
+            population.append(individual)
+            updateGenerationStatistics(individual: individual, id: i)
         }
     }
 
     func createNextGeneration() {
         resetGenerationStatistics()
-        var dna : DNA
-        var one : DNA
-        var two : DNA
+        var individual: Individual
+        var one : Individual
+        var two : Individual
         for i in 0..<population.count {
-            one = getWeightedRandomDNA()
-            two = getWeightedRandomDNA()
+            one = getWeightedRandomIndividual()
+            two = getWeightedRandomIndividual()
             while (two.id == one.id) {
 //                print("doing this inner loop for ",i)
-                two = getWeightedRandomDNA()
+                two = getWeightedRandomIndividual()
             }
-            dna = DNA(one: one, two: two, id: i)
-            population[i] = dna
-            updateGenerationStatistics(dna: dna, id: i)
+            individual = Individual(one: one, two: two, id: i)
+            population[i] = individual
+            updateGenerationStatistics(individual: individual, id: i)
         }
     }
     
@@ -62,25 +62,25 @@ class Population {
         bestString = ""
     }
     
-    func updateGenerationStatistics(dna : DNA, id : Int) {
-        averageFitnessPercentage += Double(dna.fitnessPercentage) / Double(Settings.populationSize)
-        totalWeightThisGeneration += dna.fitness
-        if dna.fitnessPercentage > bestFitnessPercentage {
-            bestFitnessPercentage = dna.fitnessPercentage
-            bestString = dna.stringValue()
+    func updateGenerationStatistics(individual : Individual, id : Int) {
+        averageFitnessPercentage += Double(individual.fitnessPercentage) / Double(Settings.populationSize)
+        totalWeightThisGeneration += individual.fitness
+        if individual.fitnessPercentage > bestFitnessPercentage {
+            bestFitnessPercentage = individual.fitnessPercentage
+            bestString = individual.stringValue()
         }
     }
     
-    func getWeightedRandomDNA() -> DNA {
+    func getWeightedRandomIndividual() -> Individual {
         let random = Int(arc4random_uniform(UInt32(totalWeightLastGeneration)))
         var sum = 0
-        for dna in population {
-            sum += dna.fitness
+        for individual in population {
+            sum += individual.fitness
             if random < sum {
-                return dna
+                return individual
             }
         }
-        return DNA(id: 0)      // unreachable
+        return Individual(id: 0)      // unreachable
     }
     
         
